@@ -1,4 +1,5 @@
 const users = []
+const rooms = []
 
 // addUser, removeUser, getUser, getUsersInRoom
 
@@ -64,29 +65,40 @@ const getUsersInRoom = (room) => {
   return users.filter((user) => user.room === room)
 }
 
-addUser({
-    id: 10, 
-    username: ' Ze     ',
-    room: 'SA'
-})
 
-addUser({
-    id: 22, 
-    username: ' Be     ',
-    room: 'SA'
-})
+const findallExisteRooms =() => {
+    users.forEach((user) => {
+       rooms.push(user.room)
+    })
+    return [...new Set(rooms)]
+}
 
-addUser({
-    id: 31, 
-    username: ' Te     ',
-    room: 'TA'
-})
+
+// addUser({
+//     id: 10, 
+//     username: ' Ze     ',
+//     room: 'SA'
+// })
+
+// addUser({
+//     id: 22, 
+//     username: ' Be     ',
+//     room: 'SA'
+// })
+
+// addUser({
+//     id: 31, 
+//     username: ' Te     ',
+//     room: 'TA'
+// })
 
 // console.log(users)
 
 // console.log(getUser(22))
 
-const userList = getUsersInRoom('TO')
+//console.log(findallExisteRoom())
+
+//const userList = getUsersInRoom('TO')
 
 //console.log(userList)
 // const res = addUser({
@@ -106,5 +118,6 @@ module.exports = {
     addUser,
     removeUser,
     getUser,
-    getUsersInRoom
+    getUsersInRoom,
+    findallExisteRooms
 }

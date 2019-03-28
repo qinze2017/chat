@@ -3,8 +3,8 @@ const path = require('path')
 const http = require('http')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
-const { generateMessage, generateLocationMessage } = require('./utils/messages')
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users')
+const { generateMessage, generateLocationMessage, generateRoomsMessage } = require('./utils/messages')
+const { addUser, removeUser, getUser, getUsersInRoom, findallExisteRooms } = require('./utils/users')
 
 const app = express()
 const server = http.createServer(app)
@@ -28,21 +28,19 @@ io.on('connection', (socket) => {
             return callback(error)
         }
 
-
         socket.join(user.room)
 
         socket.emit('send', generateMessage('Admin','Welcome!'))
         //send anothers except himself
         //socket.broadcast.emit('send', generateMessage('A new user has joined!'))
         socket.broadcast.to(user.room).emit('send', generateMessage('Admin',`${user.username} has joined!`))
-
+       
         io.to(user.room).emit('roomData', {
             room: user.room,
             users: getUsersInRoom(user.room)
         })
 
         callback()
-
         //socket.emit, io.emit, socket.broadcast.emit
         //io.to.emit, socket.broadcast.to.emit
     })
@@ -60,6 +58,14 @@ io.on('connection', (socket) => {
         //io.emit('send', generateMessage(message))
         io.to(user.room).emit('send', generateMessage(user.username, message))
         callback('Delivered!')
+    })
+
+    socket.on('sendRooms', () => {
+        const user = getUser(socket.id)
+
+        rooms = findallExisteRooms()
+
+        io.to(user.room).emit('RoomsMessage', generateRoomsMessage(user.username, rooms, `http://localhost:3000/chat.html?username=admin&room=` ))
     })
 
     socket.on('sendLocation', (coords, callback) => {

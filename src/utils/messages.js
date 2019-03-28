@@ -14,7 +14,17 @@ const generateLocationMessage = (username, url) => {
     }
 }
 
+const generateRoomsMessage = (username, rooms, url) => {
+    return {
+        rooms,
+        url,
+        createdAt: new Date().getTime(),
+        username
+    }
+}
+
 module.exports = {
     generateMessage,
-    generateLocationMessage
+    generateLocationMessage,
+    generateRoomsMessage
 }

@@ -6,10 +6,12 @@ const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
 const $locationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
+const $roomsButton = document.querySelector('#send-rooms')
 
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const messageTemplate2 = document.querySelector('#message-template2').innerHTML
+const messageTemplate3 = document.querySelector('#message-template3').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
 //Options ignoreQueryPrefix ignore ...?
@@ -51,8 +53,20 @@ socket.on('send', (message) => {
 })
 
 socket.on('LocationMessage', (message) => {
-    console.log(message)
+    //console.log(message)
     const html = Mustache.render(messageTemplate2, {
+        username: message.username,
+        url: message.url,
+        createdAt: moment(message.createdAt).format('h:mm a')
+    })
+    $messages.insertAdjacentHTML('beforeend', html)
+    autoscroll()
+})
+
+socket.on('RoomsMessage', (message) => {
+    console.log(message)
+    const html = Mustache.render(messageTemplate3, {
+        rooms: message.rooms,
         username: message.username,
         url: message.url,
         createdAt: moment(message.createdAt).format('h:mm a')
@@ -65,6 +79,15 @@ socket.on('roomData',({room, users}) => {
     const html = Mustache.render(sidebarTemplate, {
         room,
         users
+    })
+    document.querySelector('#sidebar').innerHTML = html
+    // console.log(room)
+    // console.log(users)
+})
+
+socket.on('sendRoomsinfo',({rooms}) => {
+    const html = Mustache.render(sidebarTemplate, {
+        rooms
     })
     document.querySelector('#sidebar').innerHTML = html
     // console.log(room)
@@ -92,6 +115,9 @@ $messageForm.addEventListener('submit', (e) => {
     })
 })
 
+$roomsButton.addEventListener('click', () => {
+    socket.emit('sendRooms', (error) => {})
+})
 
 $locationButton.addEventListener('click', () => {
     
