@@ -62,10 +62,8 @@ io.on('connection', (socket) => {
 
     socket.on('sendRooms', () => {
         const user = getUser(socket.id)
-
-        rooms = findallExisteRooms()
-
-        io.to(user.room).emit('RoomsMessage', generateRoomsMessage(user.username, rooms, `http://localhost:3000/chat.html?username=admin&room=` ))
+        
+        io.to(user.room).emit('RoomsMessage', generateRoomsMessage(user.username, user.room, findallExisteRooms(user.room), `http://localhost:3000/chat.html?username=admin&room=` ))
     })
 
     socket.on('sendLocation', (coords, callback) => {

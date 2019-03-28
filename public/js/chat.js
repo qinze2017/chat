@@ -66,6 +66,7 @@ socket.on('LocationMessage', (message) => {
 socket.on('RoomsMessage', (message) => {
     console.log(message)
     const html = Mustache.render(messageTemplate3, {
+        room: message.room,
         rooms: message.rooms,
         username: message.username,
         url: message.url,

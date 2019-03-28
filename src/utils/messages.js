@@ -14,8 +14,9 @@ const generateLocationMessage = (username, url) => {
     }
 }
 
-const generateRoomsMessage = (username, rooms, url) => {
+const generateRoomsMessage = (username, room, rooms, url) => {
     return {
+        room,
         rooms,
         url,
         createdAt: new Date().getTime(),

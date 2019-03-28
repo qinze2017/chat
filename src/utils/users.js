@@ -1,5 +1,4 @@
 const users = []
-const rooms = []
 
 // addUser, removeUser, getUser, getUsersInRoom
 
@@ -66,37 +65,50 @@ const getUsersInRoom = (room) => {
 }
 
 
-const findallExisteRooms =() => {
+const findallExisteRooms =(room) => {
+    
+    const rooms =[]
+
     users.forEach((user) => {
-       rooms.push(user.room)
+        
+        if (user.room != room) {
+            rooms.push(user.room)
+        }
     })
-    return [...new Set(rooms)]
+
+    return [...new Set(rooms)].sort()
 }
 
 
 // addUser({
 //     id: 10, 
 //     username: ' Ze     ',
-//     room: 'SA'
+//     room: '1'
 // })
 
 // addUser({
 //     id: 22, 
 //     username: ' Be     ',
-//     room: 'SA'
+//     room: '2'
 // })
 
 // addUser({
 //     id: 31, 
 //     username: ' Te     ',
-//     room: 'TA'
+//     room: '3'
+// })
+
+// addUser({
+//     id: 31, 
+//     username: ' Te     ',
+//     room: '2'
 // })
 
 // console.log(users)
 
 // console.log(getUser(22))
 
-//console.log(findallExisteRoom())
+// console.log(findallExisteRooms(2))
 
 //const userList = getUsersInRoom('TO')
 
