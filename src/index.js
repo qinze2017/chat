@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const http = require('http')
+const url = require('url')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
 const { generateMessage, generateLocationMessage, generateRoomsMessage } = require('./utils/messages')
@@ -62,8 +63,8 @@ io.on('connection', (socket) => {
 
     socket.on('sendRooms', () => {
         const user = getUser(socket.id)
-        
-        io.to(user.room).emit('RoomsMessage', generateRoomsMessage(user.username, user.room, findallExisteRooms(user.room), `http://localhost:3000/chat.html?username=admin&room=` ))
+        //console.log(socket.handshake.headers.host)
+        io.to(user.room).emit('RoomsMessage', generateRoomsMessage(user.username, user.room, findallExisteRooms(user.room), `http://${socket.handshake.headers.host}/chat.html?username=admin&room=` ))
     })
 
     socket.on('sendLocation', (coords, callback) => {
